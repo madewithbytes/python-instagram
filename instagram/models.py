@@ -96,8 +96,10 @@ class Media(ApiModel):
 
         new_media.comment_count = entry['comments']['count']
         new_media.comments = []
-        for comment in entry['comments']['data']:
-            new_media.comments.append(Comment.object_from_dictionary(comment))
+        for comment in entry['comments']:
+            if 'data'in comment:
+                new_media.comments.append(
+                    Comment.object_from_dictionary(comment['data']))
 
         new_media.users_in_photo = []
         if entry.get('users_in_photo'):
